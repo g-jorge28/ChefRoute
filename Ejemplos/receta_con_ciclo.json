@@ -1,0 +1,10 @@
+{
+  "plato": "Receta imposible (con ciclo)",
+  "tareas": ["Hervir Agua", "Cocer Pasta", "Escurrir Pasta", "Servir"],
+  "dependencias": [
+    { "desde": "Hervir Agua", "hacia": "Cocer Pasta", "tiempoMinutos": 8 },
+    { "desde": "Cocer Pasta", "hacia": "Escurrir Pasta", "tiempoMinutos": 10 },
+    { "desde": "Escurrir Pasta", "hacia": "Hervir Agua", "tiempoMinutos": 3 },
+    { "desde": "Escurrir Pasta", "hacia": "Servir", "tiempoMinutos": 2 }
+  ]
+}

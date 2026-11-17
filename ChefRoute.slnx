@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="ChefRoute/ChefRoute.csproj" />
+  <Project Path="ChefRoute.UI/ChefRoute.UI.csproj" />
+</Solution>

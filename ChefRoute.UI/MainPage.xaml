@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="ChefRoute.UI.MainPage"
+             BackgroundColor="{StaticResource Fondo}"
+             Title="ChefRoute">
+
+    <Grid RowDefinitions="Auto,*">
+
+        <!-- Encabezado -->
+        <Grid Grid.Row="0"
+              BackgroundColor="{StaticResource Tinta}"
+              Padding="24,14"
+              ColumnDefinitions="*,Auto"
+              ColumnSpacing="16">
+
+            <VerticalStackLayout Grid.Column="0" VerticalOptions="Center" Spacing="2">
+                <Label Text="ChefRoute" FontSize="26" FontAttributes="Bold" TextColor="White" />
+                <Label x:Name="LabelPlato"
+                       Text="Ninguna receta cargada"
+                       FontSize="14"
+                       TextColor="#BFD9CC" />
+            </VerticalStackLayout>
+
+            <HorizontalStackLayout Grid.Column="1" Spacing="10" VerticalOptions="Center">
+                <Button Text="Abrir JSON..." Style="{StaticResource BotonAzafran}" Clicked="AlAbrirJson" />
+                <Button Text="Ejemplo válido" Style="{StaticResource BotonSobreOscuro}" Clicked="AlCargarEjemploValido" />
+                <Button Text="Ejemplo con ciclo" Style="{StaticResource BotonSobreOscuro}" Clicked="AlCargarEjemploCiclo" />
+            </HorizontalStackLayout>
+        </Grid>
+
+        <!-- Contenido -->
+        <Grid Grid.Row="1" Padding="16" ColumnSpacing="16" ColumnDefinitions="250,*,350">
+
+            <!-- Izquierda: datos de la receta -->
+            <Border Grid.Column="0"
+                    Stroke="#D5DCDD"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 12"
+                    Background="White"
+                    Padding="14">
+                <Grid RowDefinitions="Auto,*,Auto,*" RowSpacing="6">
+                    <Label Grid.Row="0" Text="Tareas" Style="{StaticResource Titulo}" />
+
+                    <CollectionView Grid.Row="1" x:Name="ListaTareas">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="x:String">
+                                <Label Text="{Binding .}" Padding="2,5" FontSize="13" TextColor="{StaticResource Tinta}" />
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+
+                    <Label Grid.Row="2" Text="Dependencias" Style="{StaticResource Titulo}" Margin="0,10,0,0" />
+
+                    <CollectionView Grid.Row="3" x:Name="ListaDependencias">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="x:String">
+                                <Label Text="{Binding .}" Padding="2,5" FontSize="12" TextColor="{StaticResource Tinta}" />
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </Grid>
+            </Border>
+
+            <!-- Centro: el grafo -->
+            <Border Grid.Column="1"
+                    Stroke="#D5DCDD"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 12"
+                    Background="White"
+                    Padding="14">
+                <Grid RowDefinitions="Auto,*,Auto" RowSpacing="8">
+                    <Label Grid.Row="0" Text="Grafo de la receta" Style="{StaticResource Titulo}" />
+                    <GraphicsView Grid.Row="1" x:Name="GraficoGrafo" BackgroundColor="#F6F8F7" />
+                    <Label Grid.Row="2"
+                           Style="{StaticResource Nota}"
+                           Text="Una flecha A → B significa que A debe terminar antes de empezar B. Los números son minutos. Amarillo: el chef está aquí. Verde: tarea terminada. Rojo: ciclo." />
+                </Grid>
+            </Border>
+
+            <!-- Derecha: los tres módulos -->
+            <ScrollView Grid.Column="2">
+                <VerticalStackLayout Spacing="14">
+
+                    <!-- 1. Ciclos -->
+                    <Border Stroke="#D5DCDD"
+                            StrokeThickness="1"
+                            StrokeShape="RoundRectangle 12"
+                            Background="White"
+                            Padding="14">
+                        <VerticalStackLayout Spacing="8">
+                            <Label Text="1. Detectar recetas imposibles" Style="{StaticResource Titulo}" />
+                            <Label Style="{StaticResource Nota}"
+                                   Text="Búsqueda en profundidad (DFS): revisa si alguna tarea termina dependiendo de sí misma." />
+                            <Button x:Name="BotonValidar"
+                                    Text="Validar receta"
+                                    Style="{StaticResource BotonPrimario}"
+                                    IsEnabled="False"
+                                    Clicked="AlValidar" />
+                            <Border x:Name="BannerValidacion"
+                                    StrokeShape="RoundRectangle 8"
+                                    StrokeThickness="1"
+                                    Stroke="#D5DCDD"
+                                    Background="#F1F4F3"
+                                    Padding="10">
+                                <Label x:Name="TextoValidacion"
+                                       Text="Carga una receta para empezar."
+                                       FontSize="13"
+                                       TextColor="{StaticResource TextoSuave}" />
+                            </Border>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- 2. Orden topologico -->
+                    <Border Stroke="#D5DCDD"
+                            StrokeThickness="1"
+                            StrokeShape="RoundRectangle 12"
+                            Background="White"
+                            Padding="14">
+                        <VerticalStackLayout Spacing="8">
+                            <Label Text="2. Secuencia de preparación" Style="{StaticResource Titulo}" />
+                            <Label Style="{StaticResource Nota}"
+                                   Text="Orden topológico: qué se prepara primero respetando todas las dependencias." />
+                            <Button x:Name="BotonCalcular"
+                                    Text="Calcular secuencia"
+                                    Style="{StaticResource BotonPrimario}"
+                                    IsEnabled="False"
+                                    Clicked="AlCalcularSecuencia" />
+                            <CollectionView x:Name="ListaOrden" HeightRequest="170">
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate x:DataType="x:String">
+                                        <Label Text="{Binding .}" Padding="2,4" FontSize="13" TextColor="{StaticResource Tinta}" />
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                            <Label x:Name="TextoTiempo"
+                                   FontSize="13"
+                                   FontAttributes="Bold"
+                                   TextColor="{StaticResource Albahaca}" />
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- 3. Ronda circular -->
+                    <Border Stroke="#D5DCDD"
+                            StrokeThickness="1"
+                            StrokeShape="RoundRectangle 12"
+                            Background="White"
+                            Padding="14">
+                        <VerticalStackLayout Spacing="8">
+                            <Label Text="3. Ronda de supervisión" Style="{StaticResource Titulo}" />
+                            <Label Style="{StaticResource Nota}"
+                                   Text="Lista circular: el chef recorre las tareas y al llegar a la última vuelve a la primera." />
+                            <Label x:Name="TextoRonda"
+                                   Text="Calcula la secuencia para preparar la ronda."
+                                   FontSize="13"
+                                   TextColor="{StaticResource Tinta}" />
+                            <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto" ColumnSpacing="8" RowSpacing="8">
+                                <Button x:Name="BotonSiguiente" Grid.Row="0" Grid.Column="0"
+                                        Text="Siguiente"
+                                        Style="{StaticResource BotonPrimario}"
+                                        IsEnabled="False"
+                                        Clicked="AlSiguiente" />
+                                <Button x:Name="BotonAuto" Grid.Row="0" Grid.Column="1"
+                                        Text="Automático"
+                                        Style="{StaticResource BotonSecundario}"
+                                        IsEnabled="False"
+                                        Clicked="AlCambiarAutomatico" />
+                                <Button x:Name="BotonTerminar" Grid.Row="1" Grid.Column="0"
+                                        Text="Terminar tarea"
+                                        Style="{StaticResource BotonSecundario}"
+                                        IsEnabled="False"
+                                        Clicked="AlTerminarTarea" />
+                                <Button x:Name="BotonReiniciar" Grid.Row="1" Grid.Column="1"
+                                        Text="Reiniciar"
+                                        Style="{StaticResource BotonSecundario}"
+                                        IsEnabled="False"
+                                        Clicked="AlReiniciarRonda" />
+                            </Grid>
+                        </VerticalStackLayout>
+                    </Border>
+
+                </VerticalStackLayout>
+            </ScrollView>
+        </Grid>
+    </Grid>
+</ContentPage>

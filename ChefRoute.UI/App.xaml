@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="ChefRoute.UI.App">
+    <Application.Resources>
+        <ResourceDictionary>
+
+            <Color x:Key="Tinta">#1F2A2E</Color>
+            <Color x:Key="TextoSuave">#5B6A6E</Color>
+            <Color x:Key="Acero">#D5DCDD</Color>
+            <Color x:Key="Fondo">#F1F4F3</Color>
+            <Color x:Key="Albahaca">#2F7D5B</Color>
+            <Color x:Key="AlbahacaClaro">#DCEFE5</Color>
+            <Color x:Key="Azafran">#F2B134</Color>
+            <Color x:Key="Chile">#B93A32</Color>
+            <Color x:Key="ChileClaro">#F7DEDB</Color>
+
+            <Style x:Key="Titulo" TargetType="Label">
+                <Setter Property="FontSize" Value="16" />
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="TextColor" Value="{StaticResource Tinta}" />
+            </Style>
+
+            <Style x:Key="Nota" TargetType="Label">
+                <Setter Property="FontSize" Value="12" />
+                <Setter Property="TextColor" Value="{StaticResource TextoSuave}" />
+            </Style>
+
+            <!-- Botón principal (verde) -->
+            <Style x:Key="BotonPrimario" TargetType="Button">
+                <Setter Property="BackgroundColor" Value="{StaticResource Albahaca}" />
+                <Setter Property="TextColor" Value="White" />
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="CornerRadius" Value="8" />
+                <Setter Property="Padding" Value="14,10" />
+                <Setter Property="VisualStateManager.VisualStateGroups">
+                    <VisualStateGroupList>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal" />
+                            <VisualState x:Name="Disabled">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="#C9D1D3" />
+                                    <Setter Property="TextColor" Value="#7C898D" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateGroupList>
+                </Setter>
+            </Style>
+
+            <!-- Botón secundario (solo contorno) -->
+            <Style x:Key="BotonSecundario" TargetType="Button">
+                <Setter Property="BackgroundColor" Value="Transparent" />
+                <Setter Property="TextColor" Value="{StaticResource Tinta}" />
+                <Setter Property="BorderColor" Value="{StaticResource Tinta}" />
+                <Setter Property="BorderWidth" Value="1.5" />
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="CornerRadius" Value="8" />
+                <Setter Property="Padding" Value="14,10" />
+                <Setter Property="VisualStateManager.VisualStateGroups">
+                    <VisualStateGroupList>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal" />
+                            <VisualState x:Name="Disabled">
+                                <VisualState.Setters>
+                                    <Setter Property="BorderColor" Value="#C9D1D3" />
+                                    <Setter Property="TextColor" Value="#9AA5A8" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateGroupList>
+                </Setter>
+            </Style>
+
+            <!-- Botones del encabezado (fondo oscuro) -->
+            <Style x:Key="BotonAzafran" TargetType="Button">
+                <Setter Property="BackgroundColor" Value="{StaticResource Azafran}" />
+                <Setter Property="TextColor" Value="{StaticResource Tinta}" />
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="CornerRadius" Value="8" />
+                <Setter Property="Padding" Value="14,8" />
+            </Style>
+
+            <Style x:Key="BotonSobreOscuro" TargetType="Button">
+                <Setter Property="BackgroundColor" Value="Transparent" />
+                <Setter Property="TextColor" Value="White" />
+                <Setter Property="BorderColor" Value="#8FA3A8" />
+                <Setter Property="BorderWidth" Value="1.5" />
+                <Setter Property="CornerRadius" Value="8" />
+                <Setter Property="Padding" Value="14,8" />
+            </Style>
+
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
